@@ -614,65 +614,7 @@
     </footer>
 
     <!-- CHANGE 4: The JavaScript connection code block sits right before the closing </body> tag -->
-    <script>
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('preorder-form');
-            const emailInput = document.getElementById('email-input');
-            const statusMessage = document.getElementById('form-message');
-            const submitButton = form.querySelector('.signup-btn');
-
-            form.addEventListener('submit', async function(event) {
-                // Stop the default browser action (reloading the webpage)
-                event.preventDefault(); 
-                
-                // Read the email string value from the input field
-                const emailValue = emailInput.value;
-
-                // Adjust UI visually into a loading state
-                submitButton.disabled = true;
-                submitButton.textContent = 'Joining...';
-                statusMessage.style.display = 'none';
-
-                try {
-
-                    // Send an asynchronous network request to your local backend server
-                    const response = await fetch('http://localhost:5000/api/preorder', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ email: emailValue })
-                    });
-
-                    // Parse the backend server's JSON message response
-                    const result = await response.json();
-                    
-                    statusMessage.style.display = 'block';
-                    statusMessage.textContent = result.message;
-
-                    if (response.ok) {
-                        statusMessage.style.color = '#27ae60'; // Success green styling
-                        emailInput.value = ''; // Flush out the text input box
-                        submitButton.textContent = 'Joined!';
-
-                    } else {
-                        statusMessage.style.color = '#c0392b'; // Client error red styling
-                        submitButton.disabled = false;
-                        submitButton.textContent = 'Join List';
-                    }
-
-                } catch (error) {
-                    // Triggers if the user is offline or the backend server is turned off
-                    statusMessage.style.display = 'block';
-                    statusMessage.style.color = '#c0392b';
-                    statusMessage.textContent = 'Could not connect to the server. Please check if your backend is running.';
-                    submitButton.disabled = false;
-                    submitButton.textContent = 'Join List';
-                }
-            });
-        });
-    </script>
+   
 </body>
 </html>
 
